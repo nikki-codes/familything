@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Master Build Script for FamilyThing Project
-# Supports both Java and Python versions
+# Supports Java, Python, and TypeScript versions
 
 set -e  # Exit on any error
 
@@ -12,6 +12,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
+ORANGE='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Function to print colored output
@@ -39,6 +40,10 @@ print_python() {
     echo -e "${CYAN}[PYTHON]${NC} $1"
 }
 
+print_typescript() {
+    echo -e "${ORANGE}[TYPESCRIPT]${NC} $1"
+}
+
 # Check if Java is available
 check_java() {
     if command -v javac &> /dev/null; then
@@ -58,6 +63,28 @@ check_python() {
     else
         PYTHON_AVAILABLE=false
         print_warning "Python3 not found"
+    fi
+}
+
+# Check if Node.js is available
+check_node() {
+    if command -v node &> /dev/null; then
+        NODE_AVAILABLE=true
+        print_typescript "Node.js found: $(node --version 2>&1)"
+    else
+        NODE_AVAILABLE=false
+        print_warning "Node.js not found"
+    fi
+}
+
+# Check if npm is available
+check_npm() {
+    if command -v npm &> /dev/null; then
+        NPM_AVAILABLE=true
+        print_typescript "npm found: $(npm --version 2>&1)"
+    else
+        NPM_AVAILABLE=false
+        print_warning "npm not found"
     fi
 }
 
@@ -99,6 +126,25 @@ build_python() {
     fi
 }
 
+# Build TypeScript version
+build_typescript() {
+    if [ "$NODE_AVAILABLE" = true ] && [ "$NPM_AVAILABLE" = true ]; then
+        print_typescript "Building TypeScript version..."
+        cd typescript-version
+        if [ -f "build.sh" ]; then
+            chmod +x build.sh
+            ./build.sh build
+        else
+            print_error "TypeScript build script not found"
+            return 1
+        fi
+        cd ..
+        print_success "TypeScript version built and run successfully"
+    else
+        print_warning "Skipping TypeScript build - Node.js/npm not available"
+    fi
+}
+
 # Run Java version
 run_java() {
     if [ "$JAVA_AVAILABLE" = true ]; then
@@ -128,6 +174,22 @@ run_python() {
     fi
 }
 
+# Run TypeScript version
+run_typescript() {
+    if [ "$NODE_AVAILABLE" = true ] && [ "$NPM_AVAILABLE" = true ]; then
+        print_typescript "Running TypeScript version..."
+        cd typescript-version
+        if [ -f "dist/main.js" ]; then
+            node dist/main.js
+        else
+            npm run dev
+        fi
+        cd ..
+    else
+        print_warning "Cannot run TypeScript version - Node.js/npm not available"
+    fi
+}
+
 # Clean all builds
 clean_all() {
     print_status "Cleaning all builds..."
@@ -149,6 +211,15 @@ clean_all() {
         cd ..
     fi
     
+    # Clean TypeScript
+    if [ -d "typescript-version" ]; then
+        cd typescript-version
+        if [ -f "build.sh" ]; then
+            ./build.sh clean
+        fi
+        cd ..
+    fi
+    
     print_success "All builds cleaned"
 }
 
@@ -159,18 +230,23 @@ show_help() {
     echo "Usage: $0 [COMMAND]"
     echo ""
     echo "Commands:"
+    echo "  all            - Build and run all versions (Java + Python + TypeScript)"
     echo "  java           - Build and run Java version"
     echo "  python         - Build and run Python version"
-    echo "  both           - Build and run both versions"
+    echo "  typescript     - Build and run TypeScript version"
+    echo "  both           - Build and run Java and Python versions"
     echo "  run-java       - Run Java version (must be built first)"
     echo "  run-python     - Run Python version"
+    echo "  run-typescript - Run TypeScript version (must be built first)"
     echo "  clean          - Clean all builds"
     echo "  help           - Show this help message"
     echo ""
     echo "Examples:"
+    echo "  $0 all         # Build and run all versions"
     echo "  $0 java        # Build and run Java version"
     echo "  $0 python      # Build and run Python version"
-    echo "  $0 both        # Build and run both versions"
+    echo "  $0 typescript  # Build and run TypeScript version"
+    echo "  $0 both        # Build and run Java and Python versions"
     echo "  $0 clean       # Clean all builds"
 }
 
@@ -182,6 +258,8 @@ main() {
     # Check available languages
     check_java
     check_python
+    check_node
+    check_npm
     echo ""
     
     # Parse command line arguments
@@ -192,18 +270,33 @@ main() {
         "python")
             build_python
             ;;
+        "typescript")
+            build_typescript
+            ;;
         "both")
-            print_status "Building and running both versions..."
+            print_status "Building and running Java and Python versions..."
             echo ""
             build_java
             echo ""
             build_python
+            ;;
+        "all")
+            print_status "Building and running all versions..."
+            echo ""
+            build_java
+            echo ""
+            build_python
+            echo ""
+            build_typescript
             ;;
         "run-java")
             run_java
             ;;
         "run-python")
             run_python
+            ;;
+        "run-typescript")
+            run_typescript
             ;;
         "clean")
             clean_all

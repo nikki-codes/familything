@@ -2,10 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build All (Java + Python)",
+            "label": "Build All (Java + Python + TypeScript)",
             "type": "shell",
             "command": "./build-all.sh",
-            "args": ["both"],
+            "args": ["all"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -19,7 +19,8 @@
                 "clear": false
             },
             "problemMatcher": [
-                "$javac"
+                "$javac",
+                "$tsc"
             ]
         },
         {
@@ -56,6 +57,24 @@
             }
         },
         {
+            "label": "Build TypeScript Version",
+            "type": "shell",
+            "command": "./build-all.sh",
+            "args": ["typescript"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
             "label": "Run Java Version",
             "type": "shell",
             "command": "./build-all.sh",
@@ -75,6 +94,21 @@
             "type": "shell",
             "command": "./build-all.sh",
             "args": ["run-python"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run TypeScript Version",
+            "type": "shell",
+            "command": "./build-all.sh",
+            "args": ["run-typescript"],
             "group": "test",
             "presentation": {
                 "echo": true,
@@ -172,6 +206,87 @@
             "command": "python3",
             "args": ["python-version/run.py"],
             "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "TypeScript: Build",
+            "type": "shell",
+            "command": "./typescript-version/build.sh",
+            "args": ["build"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "TypeScript: Compile Only",
+            "type": "shell",
+            "command": "./typescript-version/build.sh",
+            "args": ["compile"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "TypeScript: Run",
+            "type": "shell",
+            "command": "./typescript-version/build.sh",
+            "args": ["run"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "TypeScript: Lint",
+            "type": "shell",
+            "command": "./typescript-version/build.sh",
+            "args": ["lint"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "TypeScript: Format",
+            "type": "shell",
+            "command": "./typescript-version/build.sh",
+            "args": ["format"],
+            "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "always",

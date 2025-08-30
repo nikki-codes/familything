@@ -37,6 +37,29 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/python-version",
             "justMyCode": true
+        },
+        {
+            "type": "node",
+            "name": "Debug TypeScript Version",
+            "request": "launch",
+            "program": "${workspaceFolder}/typescript-version/src/main.ts",
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/typescript-version",
+            "preLaunchTask": "TypeScript: Compile Only",
+            "outFiles": ["${workspaceFolder}/typescript-version/dist/**/*.js"],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "name": "Debug TypeScript Compiled",
+            "request": "launch",
+            "program": "${workspaceFolder}/typescript-version/dist/main.js",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/typescript-version",
+            "preLaunchTask": "TypeScript: Compile Only",
+            "outFiles": ["${workspaceFolder}/typescript-version/dist/**/*.js"],
+            "sourceMaps": true
         }
     ]
 }

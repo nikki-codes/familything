@@ -25,6 +25,19 @@ wheels/
 .installed.cfg
 *.egg
 
+# Node.js and TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+*.tsbuildinfo
+
+# TypeScript build artifacts
+typescript-version/dist/
+typescript-version/*.tsbuildinfo
+
 # IDE files
 .vscode/settings.json
 .idea/
