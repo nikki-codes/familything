@@ -1,0 +1,32 @@
+{
+    "name": "Java Family Project",
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "17",
+            "installMaven": false,
+            "installGradle": false
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test",
+                "vscjava.vscode-maven",
+                "redhat.java"
+            ],
+            "settings": {
+                "java.compile.nullAnalysis.mode": "automatic",
+                "java.configuration.updateBuildConfiguration": "automatic"
+            }
+        }
+    },
+
+    "postCreateCommand": "chmod +x build.sh && ./build.sh compile",
+
+    "remoteUser": "vscode"
+}
