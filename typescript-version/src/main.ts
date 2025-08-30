@@ -46,12 +46,12 @@ function main(): void {
   nikhita.describeGenome();
   tejas.describeGenome();
   
-  // Pet interactions
+  // Pet interactions (using Person objects like Java)
   const dog = new Pet('Jimmy', bogey);
-  dog.namePet('Nikhita', 'yoyo');
-  dog.namePet('Pavan', 'jim');
-  dog.callsMeBy('Nikhita');
-  dog.callsMeBy('Pavan');
+  dog.namePet(nikhita, 'yoyo');
+  dog.namePet(pavan, 'jim');
+  dog.callsMeBy(nikhita);
+  dog.callsMeBy(pavan);
   dog.removeName();
   dog.removeName();
   

@@ -1,56 +1,64 @@
 import { BogeyMan } from '../social-constructs/bogey-man';
+import { Person } from './person';
 
 /**
- * Represents a pet in the family
+ * Pet class that can be given nicknames by family members.
+ * Integrates with BogeyMan for tracking nickname status.
  */
 export class Pet {
-  private name: string;
-  private bogeyMan: BogeyMan;
-  private nicknames: Map<string, string> = new Map();
   private defaultName: string;
+  private bogeyMan: BogeyMan;
+  private nickPersons: Person[] = [];  // Store Person objects
+  private nickNames: string[] = [];    // Store corresponding nicknames
+  private counter: number = 0;  // Track number of nicknames
 
   constructor(name: string, bogeyMan: BogeyMan) {
-    this.name = name;
-    this.bogeyMan = bogeyMan;
     this.defaultName = name;
+    this.bogeyMan = bogeyMan;
   }
 
   /**
    * Give the pet a nickname by a person
    */
-  namePet(personName: string, nickname: string): void {
-    this.nicknames.set(personName, nickname);
+  namePet(person: Person, nickname: string): void {
+    this.nickPersons.push(person);
+    this.nickNames.push(nickname);
+    this.counter += 1;
     console.log(nickname);
+    // Increment the bogeyman counter for this pet
+    this.bogeyMan.increment(this);
   }
 
   /**
    * Check what a person calls this pet
    */
-  callsMeBy(personName: string): void {
-    const nickname = this.nicknames.get(personName);
-    if (nickname) {
-      console.log(nickname);
-    } else {
-      console.log(this.defaultName);
+  callsMeBy(person: Person): void {
+    let myName = this.defaultName;
+    const index = this.nickPersons.indexOf(person);
+    if (index !== -1 && this.nickNames[index]) {
+      myName = this.nickNames[index];
     }
+    console.log(myName);
   }
 
   /**
-   * Remove a nickname (simplified version)
+   * Remove a nickname (simplified version - removes the last added)
    */
   removeName(): void {
-    if (this.nicknames.size > 0) {
-      // Remove the last added nickname
-      const lastKey = Array.from(this.nicknames.keys()).pop();
-      if (lastKey) {
-        this.nicknames.delete(lastKey);
-      }
+    if (this.counter > 0) {
+      this.counter -= 1;
+      this.nickPersons.pop();
+      this.nickNames.pop();
     }
 
-    // Check if pet should be taken away
-    if (this.nicknames.size === 0) {
-      console.log(`${this.name} has been taken away by bogeyman :(`);
-      this.bogeyMan.check();
-    }
+    // Decrement the bogeyman counter for this pet
+    this.bogeyMan.decrement(this);
+  }
+
+  /**
+   * Get the pet's default name
+   */
+  getName(): string {
+    return this.defaultName;
   }
 }

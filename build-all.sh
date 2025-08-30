@@ -234,7 +234,9 @@ show_help() {
     echo "  java           - Build and run Java version"
     echo "  python         - Build and run Python version"
     echo "  typescript     - Build and run TypeScript version"
-    echo "  both           - Build and run Java and Python versions"
+    echo "  java-python    - Build and run Java and Python versions"
+    echo "  java-ts        - Build and run Java and TypeScript versions"
+    echo "  python-ts      - Build and run Python and TypeScript versions"
     echo "  run-java       - Run Java version (must be built first)"
     echo "  run-python     - Run Python version"
     echo "  run-typescript - Run TypeScript version (must be built first)"
@@ -246,7 +248,7 @@ show_help() {
     echo "  $0 java        # Build and run Java version"
     echo "  $0 python      # Build and run Python version"
     echo "  $0 typescript  # Build and run TypeScript version"
-    echo "  $0 both        # Build and run Java and Python versions"
+    echo "  $0 java-python # Build and run Java and Python versions"
     echo "  $0 clean       # Clean all builds"
 }
 
@@ -273,12 +275,26 @@ main() {
         "typescript")
             build_typescript
             ;;
-        "both")
+        "java-python")
             print_status "Building and running Java and Python versions..."
             echo ""
             build_java
             echo ""
             build_python
+            ;;
+        "java-ts")
+            print_status "Building and running Java and TypeScript versions..."
+            echo ""
+            build_java
+            echo ""
+            build_typescript
+            ;;
+        "python-ts")
+            print_status "Building and running Python and TypeScript versions..."
+            echo ""
+            build_python
+            echo ""
+            build_typescript
             ;;
         "all")
             print_status "Building and running all versions..."

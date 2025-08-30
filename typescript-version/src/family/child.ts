@@ -10,12 +10,20 @@ export abstract class Child extends Person {
   protected mother: Mother;
   protected siblings: Child[] = [];
   public gender: Gender; // Make gender public for access in subclasses
+  
+  // Genome functionality
+  protected geneFromMom: string;
+  protected geneFromDad: string;
 
   constructor(name: string, father: Father, mother: Mother, gender: Gender) {
     super(name, gender);
     this.father = father;
     this.mother = mother;
     this.gender = gender; // Explicitly set gender
+    
+    // Genome functionality
+    this.geneFromMom = mother.getGenome();
+    this.geneFromDad = father.getGenome(gender);
 
     // Add this child to both parents
     father.addChild(this);
@@ -43,14 +51,20 @@ export abstract class Child extends Person {
   }
 
   /**
-   * Describe the child's siblings
+   * Describe the child's siblings (matches Java implementation)
    */
   describeSiblings(): void {
-    if (this.siblings.length === 0) {
-      console.log(`${this.name} has no siblings.`);
-    } else {
-      const siblingNames = this.siblings.map(sibling => sibling.name);
-      console.log(`${this.name} has siblings: ${siblingNames.join(', ')}`);
+    const allChildren = this.mother.listChildren();
+    for (const child of allChildren) {
+      if (child !== this) {
+        const siblingAge = child.getAge();
+        const siblingName = child.getName();
+        if (child.getGender() === Gender.FEMALE) {
+          console.log(`${siblingName} is a ${siblingAge}-year old sister`);
+        } else {
+          console.log(`${siblingName} is a ${siblingAge}-year old brother`);
+        }
+      }
     }
   }
 
@@ -58,17 +72,18 @@ export abstract class Child extends Person {
    * Describe the child's parents
    */
   describeParents(): void {
-    console.log(`${this.father.getName()} is a ${this.father.getAge()}-year-old father and ${this.mother.getName()} is a ${this.mother.getAge()}-year-old mother.`);
+    const dadAge = this.father.getAge();
+    const momAge = this.mother.getAge();
+    const dadName = this.father.getName();
+    const momName = this.mother.getName();
+    console.log(`${dadName} is a ${dadAge}-year-old father and ${momName} is a ${momAge}-year-old mother.`);
   }
 
   /**
    * Describe the child's genome
    */
   describeGenome(): void {
-    // Randomly select X genome from mother
-    const motherX = Math.random() < 0.5 ? 'x1' : 'x2';
-    const fatherX = this.gender === Gender.FEMALE ? 'x' : 'y';
-    console.log(`Genomes are: ${motherX} and ${fatherX}`);
+    console.log(`Genomes are: ${this.geneFromMom} and ${this.geneFromDad}`);
   }
 
   /**
@@ -82,6 +97,6 @@ export abstract class Child extends Person {
    * Get the person's age (public access)
    */
   getAge(): number {
-    return this.birthYear;
+    return super.getAge();
   }
 }
