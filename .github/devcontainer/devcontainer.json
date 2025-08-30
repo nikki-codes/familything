@@ -1,13 +1,19 @@
 {
-    "name": "Java Family Project",
-    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "name": "FamilyThing - Java & Python",
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
     
     "features": {
         "ghcr.io/devcontainers/features/java:1": {
             "version": "17",
             "installMaven": false,
             "installGradle": false
-        }
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.11",
+            "installTools": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
     },
 
     "customizations": {
@@ -16,17 +22,38 @@
                 "vscjava.vscode-java-pack",
                 "vscjava.vscode-java-debug",
                 "vscjava.vscode-java-test",
-                "vscjava.vscode-maven",
-                "redhat.java"
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "redhat.java",
+                "ms-vscode.vscode-json"
             ],
             "settings": {
                 "java.compile.nullAnalysis.mode": "automatic",
-                "java.configuration.updateBuildConfiguration": "automatic"
+                "java.configuration.updateBuildConfiguration": "automatic",
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.flake8Enabled": true,
+                "python.formatting.provider": "black",
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.testing.nosetestsEnabled": false,
+                "python.testing.pytestArgs": [
+                    "python-version"
+                ]
             }
         }
     },
 
-    "postCreateCommand": "chmod +x build.sh && ./build.sh compile",
+    "postCreateCommand": "chmod +x build-all.sh java-version/build.sh python-version/run.py && ./build-all.sh help",
 
-    "remoteUser": "vscode"
+    "remoteUser": "vscode",
+
+    "mounts": [
+        "source=${localWorkspaceFolder}/.devcontainer/cache,target=/home/vscode/.cache,type=bind,consistency=cached"
+    ],
+
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/familything,type=bind,consistency=cached",
+    "workspaceFolder": "/workspaces/familything"
 }

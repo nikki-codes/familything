@@ -2,44 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile Java Project",
+            "label": "Build All (Java + Python)",
             "type": "shell",
-            "command": "./build.sh",
-            "args": ["compile"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            },
-            "problemMatcher": [
-                "$javac"
-            ]
-        },
-        {
-            "label": "Run Java Project",
-            "type": "shell",
-            "command": "./build.sh",
-            "args": ["run"],
-            "group": "test",
-            "dependsOn": "Compile Java Project",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
-        },
-        {
-            "label": "Build and Run",
-            "type": "shell",
-            "command": "./build.sh",
-            "args": ["build"],
+            "command": "./build-all.sh",
+            "args": ["both"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -57,9 +23,72 @@
             ]
         },
         {
-            "label": "Clean Build",
+            "label": "Build Java Version",
             "type": "shell",
-            "command": "./build.sh",
+            "command": "./build-all.sh",
+            "args": ["java"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Build Python Version",
+            "type": "shell",
+            "command": "./build-all.sh",
+            "args": ["python"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Java Version",
+            "type": "shell",
+            "command": "./build-all.sh",
+            "args": ["run-java"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Python Version",
+            "type": "shell",
+            "command": "./build-all.sh",
+            "args": ["run-python"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Clean All Builds",
+            "type": "shell",
+            "command": "./build-all.sh",
             "args": ["clean"],
             "group": "build",
             "presentation": {
@@ -72,9 +101,9 @@
             }
         },
         {
-            "label": "Make Compile",
+            "label": "Java: Compile Only",
             "type": "shell",
-            "command": "make",
+            "command": "./java-version/build.sh",
             "args": ["compile"],
             "group": "build",
             "presentation": {
@@ -90,12 +119,29 @@
             ]
         },
         {
-            "label": "Make Run",
+            "label": "Java: Build and Run",
             "type": "shell",
-            "command": "make",
-            "args": ["run"],
-            "group": "test",
-            "dependsOn": "Make Compile",
+            "command": "./java-version/build.sh",
+            "args": ["build"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Java: Clean",
+            "type": "shell",
+            "command": "./java-version/build.sh",
+            "args": ["clean"],
+            "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -104,6 +150,72 @@
                 "showReuseMessage": true,
                 "clear": false
             }
+        },
+        {
+            "label": "Python: Run",
+            "type": "shell",
+            "command": "python3",
+            "args": ["python-version/main.py"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Python: Run with Setup",
+            "type": "shell",
+            "command": "python3",
+            "args": ["python-version/run.py"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Legacy: Build and Run (Original)",
+            "type": "shell",
+            "command": "./build.sh",
+            "args": ["build"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Legacy: Make Build",
+            "type": "shell",
+            "command": "make",
+            "args": ["compile"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
         }
     ]
 }

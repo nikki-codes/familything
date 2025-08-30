@@ -3,21 +3,40 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug Main",
+            "name": "Debug Java Version",
             "request": "launch",
             "mainClass": "Main",
             "projectName": "familything",
-            "classPaths": ["${workspaceFolder}/build"],
-            "preLaunchTask": "Compile Java Project"
+            "classPaths": ["${workspaceFolder}/java-version/build"],
+            "preLaunchTask": "Java: Compile Only",
+            "cwd": "${workspaceFolder}/java-version"
         },
         {
             "type": "java",
-            "name": "Debug Main (Make)",
+            "name": "Debug Java (Legacy)",
             "request": "launch",
             "mainClass": "Main",
             "projectName": "familything",
             "classPaths": ["${workspaceFolder}/build"],
-            "preLaunchTask": "Make Compile"
+            "preLaunchTask": "Legacy: Build and Run (Original)"
+        },
+        {
+            "type": "python",
+            "name": "Debug Python Version",
+            "request": "launch",
+            "program": "${workspaceFolder}/python-version/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/python-version",
+            "justMyCode": true
+        },
+        {
+            "type": "python",
+            "name": "Debug Python with Setup",
+            "request": "launch",
+            "program": "${workspaceFolder}/python-version/run.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/python-version",
+            "justMyCode": true
         }
     ]
 }
