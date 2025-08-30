@@ -1,5 +1,5 @@
 {
-    "name": "FamilyThing - Java & Python",
+    "name": "FamilyThing - Java, Python & TypeScript",
     "image": "mcr.microsoft.com/devcontainers/universal:2",
     
     "features": {
@@ -11,6 +11,10 @@
         "ghcr.io/devcontainers/features/python:1": {
             "version": "3.11",
             "installTools": true
+        },
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "18",
+            "nodeGypDependencies": true
         },
         "ghcr.io/devcontainers/features/git:1": {},
         "ghcr.io/devcontainers/features/github-cli:1": {}
@@ -26,6 +30,10 @@
                 "ms-python.debugpy",
                 "ms-python.black-formatter",
                 "ms-python.flake8",
+                "ms-vscode.vscode-typescript-next",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode",
+                "ms-vscode.vscode-eslint",
                 "redhat.java",
                 "ms-vscode.vscode-json"
             ],
@@ -41,12 +49,23 @@
                 "python.testing.nosetestsEnabled": false,
                 "python.testing.pytestArgs": [
                     "python-version"
+                ],
+                "typescript.preferences.includePackageJsonAutoImports": "on",
+                "typescript.suggest.autoImports": true,
+                "typescript.updateImportsOnFileMove.enabled": "always",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": "explicit"
+                },
+                "eslint.validate": [
+                    "javascript",
+                    "typescript"
                 ]
             }
         }
     },
 
-    "postCreateCommand": "chmod +x build-all.sh java-version/build.sh python-version/run.py && ./build-all.sh help",
+    "postCreateCommand": "chmod +x build-all.sh java-version/build.sh python-version/run.py typescript-version/build.sh && ./build-all.sh help",
 
     "remoteUser": "vscode",
 
