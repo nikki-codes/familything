@@ -1,0 +1,109 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile Java Project",
+            "type": "shell",
+            "command": "./build.sh",
+            "args": ["compile"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Run Java Project",
+            "type": "shell",
+            "command": "./build.sh",
+            "args": ["run"],
+            "group": "test",
+            "dependsOn": "Compile Java Project",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build and Run",
+            "type": "shell",
+            "command": "./build.sh",
+            "args": ["build"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Clean Build",
+            "type": "shell",
+            "command": "./build.sh",
+            "args": ["clean"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Make Compile",
+            "type": "shell",
+            "command": "make",
+            "args": ["compile"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Make Run",
+            "type": "shell",
+            "command": "make",
+            "args": ["run"],
+            "group": "test",
+            "dependsOn": "Make Compile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}
